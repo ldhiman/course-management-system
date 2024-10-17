@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Faculty Home - Course Management System</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+        padding: 20px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h1,
+      h2 {
+        text-align: center;
+        color: #333;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-size: 16px;
+      }
+
+      table th,
+      table td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+
+      table th {
+        background-color: #f4f6f8;
+        font-weight: bold;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+        transition: background-color 0.3s ease;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      .button:hover {
+        background-color: #2980b9;
+      }
+
+      .alert {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+      }
+
+      .alert-success {
+        background-color: #dff0d8;
+        color: #3c763d;
+        border-left: 5px solid #4cae4c;
+      }
+
+      .alert-danger {
+        background-color: #f2dede;
+        color: #a94442;
+        border-left: 5px solid #d43f3a;
+      }
+
+      select {
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      input[type="hidden"] {
+        display: none;
+      }
+
+      form {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+        }
+
+        form {
+          flex-direction: column;
+        }
+
+        .button {
+          width: 100%;
+          margin-top: 10px;
+        }
+
+        select {
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome, {{ faculty.name }}</h1>
+
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <h2>Your Information</h2>
+      <table>
+        <tr>
+          <th>Faculty ID</th>
+          <td>{{ faculty.fid }}</td>
+        </tr>
+        <tr>
+          <th>Name</th>
+          <td>{{ faculty.name }}</td>
+        </tr>
+        <tr>
+          <th>Designation</th>
+          <td>{{ faculty.designation }}</td>
+        </tr>
+        <tr>
+          <th>Subject</th>
+          <td>{{ faculty.subject }}</td>
+        </tr>
+        <tr>
+          <th>Course</th>
+          <td>{{ course.name }}</td>
+        </tr>
+      </table>
+
+      <h2>Your Courses Student</h2>
+      <table>
+        <tr>
+          <th>Student Name</th>
+          <th>Current Grade</th>
+          <th>Assign New Grade</th>
+        </tr>
+        {% for student_grade in enrolled_students %}
+        <tr>
+          <td>{{ student_grade.student.name }}</td>
+          <td>{{ student_grade.grade }}</td>
+          <td>
+            <form action="{{ url_for('faculty.submit_grade') }}" method="post">
+              <input
+                type="hidden"
+                name="student_id"
+                value="{{ student_grade.student_id }}"
+              />
+              <input
+                type="hidden"
+                name="course_id"
+                value="{{ student_grade.course_id }}"
+              />
+              <select name="grade" required>
+                <option value="" disabled>Select Grade</option>
+                <option value="O">O</option>
+                <option value="A+">A+</option>
+                <option value="A">A</option>
+                <option value="B+">B+</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="P">P</option>
+                <option value="F">F</option>
+              </select>
+              <button type="submit" class="button" style="margin-left: 10px">
+                Submit
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <a
+        href="{{ url_for('faculty.logout') }}"
+        class="button"
+        style="margin-top: 10px"
+        >Logout</a
+      >
+    </div>
+  </body>
+</html>

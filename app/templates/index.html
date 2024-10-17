@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Course Management System</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+      :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #f39c12;
+        --background-color: #f0f4f8;
+        --text-color: #2c3e50;
+        --card-background: rgba(255, 255, 255, 0.95);
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background: linear-gradient(
+          135deg,
+          var(--background-color) 0%,
+          #d6e4ff 100%
+        );
+        position: relative;
+      }
+
+      .container {
+        background-color: var(--card-background);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 450px;
+        width: 90%;
+        margin: 20px;
+        transition: transform 0.3s ease;
+      }
+
+      .container:hover {
+        transform: translateY(-5px);
+      }
+
+      .logo {
+        width: 100px;
+        height: 100px;
+        animation: rotateLogo 10s linear infinite;
+        margin-bottom: 20px;
+      }
+
+      h1 {
+        color: var(--text-color);
+        margin-bottom: 30px;
+        font-weight: 600;
+        font-size: 2rem;
+        line-height: 1.3;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .button {
+        padding: 15px 25px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          120deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: all 0.5s;
+      }
+
+      .button:hover::before {
+        left: 100%;
+      }
+
+      .faculty {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      .faculty:hover {
+        background-color: #3a7bd5;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+      }
+
+      .student {
+        background-color: var(--secondary-color);
+        color: white;
+      }
+
+      .student:hover {
+        background-color: #e67e22;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+      }
+
+      .admin {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        color: var(--text-color);
+        font-size: 14px;
+        padding: 10px 15px;
+        border: 1px solid var(--text-color);
+        border-radius: 5px;
+        text-transform: none;
+        transition: all 0.3s ease;
+      }
+
+      .admin:hover {
+        background-color: var(--text-color);
+        color: white;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes rotateLogo {
+        from {
+          transform: rotateY(0deg);
+        }
+        to {
+          transform: rotateY(360deg);
+        }
+      }
+
+      .container {
+        animation: fadeIn 0.8s ease-out;
+      }
+
+      .button {
+        animation: fadeIn 0.8s ease-out backwards;
+      }
+
+      .faculty {
+        animation-delay: 0.2s;
+      }
+
+      .student {
+        animation-delay: 0.4s;
+      }
+
+      .button a {
+        text-decoration: none;
+        color: white;
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .admin a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 30px;
+        }
+
+        h1 {
+          font-size: 1.7rem;
+        }
+
+        .logo {
+          width: 80px;
+          height: 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <svg
+        class="logo"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z"
+          fill="#4a90e2"
+        />
+      </svg>
+      <h1>Welcome to the Course Management System</h1>
+      <div class="button-container">
+        <button class="button faculty">
+          <a href="{{ url_for('faculty.index') }}">Continue as Faculty</a>
+        </button>
+        <button class="button student">
+          <a href="{{ url_for('student.index') }}">Continue as Student</a>
+        </button>
+      </div>
+    </div>
+    <button class="button admin">
+      <a href="{{ url_for('admin.index') }}">Admin</a>
+    </button>
+  </body>
+</html>
