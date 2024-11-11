@@ -43,7 +43,7 @@ def logout():
     if request.method == 'POST':
         session['userId'] = None # Store userId in session
         flash('Login successful!', 'success')
-         
+
     return render_template('student/login.html')
 
 
